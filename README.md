@@ -39,8 +39,8 @@ volatility through:
 ## Running the game
 
 To run the game, you need to have [Love2D](https://love2d.org/) installed, and a
-copy of this repository. Then, to run the game, navigate to the directory
-containing the cloned repository and run the command:
+copy of this repository. Then, navigate to the directory containing the cloned
+repository and run the command:
 
 ```bash
 love .
@@ -48,7 +48,7 @@ love .
 
 ## TODO
 
-- [ ] Change the ship colour on asteroid collision
+- [ ] Add explosion on ship collision
 - [ ] Add a title screen
 - [ ] Add a game over screen
 - [ ] Add a sound effect for the bullet

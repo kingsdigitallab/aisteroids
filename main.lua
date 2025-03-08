@@ -22,6 +22,12 @@ function love.load()
     asteroid.init_asteroids(game_state.get_level())
 end
 
+local next_level = function()
+    game_state.next_level()
+    game_state.shield_up(3)
+    asteroid.init_asteroids(asteroid.initial_count + game_state.get_level())
+end
+
 function love.update(dt)
     exit_game = exit_game - dt
     restart_game = restart_game - dt
@@ -44,14 +50,14 @@ function love.update(dt)
     local collisions = collision.check_collisions(game_state, player, bullet.bullets, asteroid.asteroids)
 
     -- Handle collisions
-    for _, collision in ipairs(collisions) do
-        asteroid.split(collision.asteroid, collision.asteroid_index)
+    for _, col in ipairs(collisions) do
+        asteroid.split(col.asteroid, col.asteroid_index)
 
-        if collision.type == "bullet" then
-            table.remove(bullet.bullets, collision.bullet_index)
+        if col.type == "bullet" then
+            table.remove(bullet.bullets, col.bullet_index)
 
             game_state.add_score(100)
-        elseif collision.type == "player" and not game_state.has_shield() then
+        elseif col.type == "player" and not game_state.has_shield() then
             game_state.lose_ship()
             game_state.set_ship_collision_time(3)
 
@@ -63,9 +69,7 @@ function love.update(dt)
 
     -- Check for level completion
     if #asteroid.asteroids == 0 then
-        game_state.next_level()
-        game_state.shield_up(3)
-        asteroid.init_asteroids(asteroid.initial_count + game_state.get_level())
+        next_level()
     end
 end
 
@@ -80,8 +84,8 @@ function love.draw()
     love.graphics.print("Level: " .. game_state.get_level(), 10, 25)
     love.graphics.print("Date: " .. game_state.get_date(), 10, 40)
     love.graphics.print("Score: " .. game_state.get_score(), 10, 55)
-    love.graphics.print("Press escape twice to quit", 10, love.graphics.getHeight() - 20)
-    love.graphics.print("Press n twice to restart", 10, love.graphics.getHeight() - 40)
+    love.graphics.print("Press 'q' twice to quit", 10, love.graphics.getHeight() - 20)
+    love.graphics.print("Press 'r' twice to restart", 10, love.graphics.getHeight() - 40)
 
 
     if game_state.is_game_over() then
@@ -101,7 +105,7 @@ local reset_game = function()
 end
 
 function love.keypressed(key)
-    if key == 'escape' then
+    if key == 'q' then
         if exit_game <= 0 then
             exit_game = 1
         else
@@ -109,7 +113,7 @@ function love.keypressed(key)
         end
     end
 
-    if key == 'n' then
+    if key == 'r' then
         if restart_game <= 0 then
             restart_game = 1
         else
@@ -117,9 +121,10 @@ function love.keypressed(key)
         end
     end
 
-    if key == 'x' then
-        reset_game()
-        game_state.shield_up(3)
+    if key == 'l' then
+        asteroid.clear_all()
+        bullet.clear_all()
+        next_level()
     end
 
     if not game_state.ship_collision() then

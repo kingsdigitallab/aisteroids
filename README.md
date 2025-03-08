@@ -15,10 +15,12 @@ interactive data visualition. Game mechanics are used to explore market
 volatility through:
 
 - asteroid size based on stock's last price
-- asteroid colour reflects price change (last - open): green for gains, darker red for larger losses
+- asteroid colour reflects price change (last - open): green for gains, darker
+  red for larger losses
 - asteroid segments scale with trading volume
 - asteroid line width matches daily price range (high - low)
-- asteroid rotation speed tied to price change magnitude: clockwise for gains, counter-clockwise for losses
+- asteroid rotation speed tied to price change magnitude: clockwise for gains,
+  counter-clockwise for losses
 - asteroid speed correlates to daily stock volatility
 
 ## Structure
@@ -34,17 +36,21 @@ volatility through:
 - `main.lua`: Entry point and game loop
 - `README.md`: This file
 
-## Relevant packages
+## Running the game
 
-- <https://github.com/rxi/tick>
+To run the game, you need to have [Love2D](https://love2d.org/) installed, and a
+copy of this repository. Then, to run the game, navigate to the directory
+containing the cloned repository and run the command:
+
+```bash
+love .
+```
 
 ## TODO
 
-- [x] Add a score system
 - [ ] Change the ship colour on asteroid collision
 - [ ] Add a title screen
 - [ ] Add a game over screen
-- [x] Add a background
 - [ ] Add a sound effect for the bullet
 - [ ] Add a sound effect for the asteroid collision
 - [ ] Add a sound effect for the ship explosion

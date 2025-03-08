@@ -1,7 +1,8 @@
 local love = require('love')
+
 local colours = require('src.utils.colours')
-local Utils = require('src.utils.utils')
-local Bullet = require('src.entities.bullet')
+local utils = require('src.utils.utils')
+local bullet = require('src.entities.bullet')
 
 local Player = {
     x = 0,
@@ -25,6 +26,53 @@ function Player.init(thrust)
     Player.thrust = thrust or 500
 end
 
+function Player.draw(shield_time, collision_time)
+    love.graphics.push()
+
+    love.graphics.translate(Player.x, Player.y)
+    love.graphics.rotate(Player.rotation)
+
+    if collision_time > 0 then
+        local collision_colour_inner = colours.PLAYER.COLLISION_1
+        collision_colour_inner[4] = collision_time / 3
+
+        local collision_colour_outer = colours.PLAYER.COLLISION_2
+        collision_colour_outer[4] = collision_time / 3
+
+        love.graphics.setColor(collision_colour_outer)
+        love.graphics.circle('fill', 0, 0, Player.size * 1.25)
+
+        love.graphics.setColor(collision_colour_inner)
+        love.graphics.circle('fill', 0, 0, Player.size / 2)
+
+        love.graphics.setColor(colours.UI.COLOUR)
+    else
+        if shield_time > 0 then
+            local shield_colour = colours.PLAYER.SHIELD
+            shield_colour[4] = shield_time / 3
+
+            love.graphics.setColor(shield_colour)
+            love.graphics.circle('line', 0, 0, Player.size * 1.5)
+            love.graphics.setColor(colours.UI.COLOUR)
+        end
+
+        love.graphics.polygon('line', 0, -Player.size,
+            -Player.size / 1.5, Player.size / 1.5,
+            Player.size / 1.5, Player.size / 1.5)
+
+        if Player.is_thrusting then
+            love.graphics.setColor(colours.PLAYER.SHIP_THRUST)
+            love.graphics.polygon('fill', 0, Player.size * 1.5,
+                -Player.size / 2.5, Player.size / 2.5 + 5,
+                Player.size / 2.5, Player.size / 2.5 + 5)
+        end
+    end
+
+    love.graphics.setColor(colours.UI.COLOUR)
+
+    love.graphics.pop()
+end
+
 function Player.update(dt)
     -- Rotation
     if love.keyboard.isDown('left') then
@@ -33,7 +81,7 @@ function Player.update(dt)
         Player.rotation = Player.rotation + Player.rotation_speed * dt
     end
 
-    local angle = Utils.get_angle(Player.rotation)
+    local angle = utils.get_angle(Player.rotation)
 
     -- Velocity
     if love.keyboard.isDown('up') then
@@ -63,38 +111,10 @@ function Player.update(dt)
     Player.y = Player.y % love.graphics.getHeight()
 end
 
-function Player.draw(has_shield)
-    love.graphics.push()
-
-    love.graphics.translate(Player.x, Player.y)
-    love.graphics.rotate(Player.rotation)
-
-    if has_shield then
-        love.graphics.setColor(colours.PLAYER.SHIELD)
-        love.graphics.circle('line', 0, 0, Player.size * 1.5)
-        love.graphics.setColor(colours.UI.COLOUR)
-    end
-
-    love.graphics.polygon('line', 0, -Player.size,
-        -Player.size / 1.5, Player.size / 1.5,
-        Player.size / 1.5, Player.size / 1.5)
-
-    if Player.is_thrusting then
-        love.graphics.setColor(colours.PLAYER.SHIP_THRUST)
-        love.graphics.polygon('fill', 0, Player.size * 1.5,
-            -Player.size / 2.5, Player.size / 2.5 + 5,
-            Player.size / 2.5, Player.size / 2.5 + 5)
-    end
-
-    love.graphics.setColor(colours.UI.COLOUR)
-
-    love.graphics.pop()
-end
-
 function Player.handle_key_press(key)
     if key == 'space' then
-        local angle = Utils.get_angle(Player.rotation)
-        Bullet.create(Player.x + math.cos(angle) * Player.size / 2,
+        local angle = utils.get_angle(Player.rotation)
+        bullet.create(Player.x + math.cos(angle) * Player.size / 2,
             Player.y + math.sin(angle) * Player.size / 2,
             Player.rotation)
     end

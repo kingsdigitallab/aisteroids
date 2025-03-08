@@ -32,7 +32,12 @@ function love.update(dt)
         return
     end
 
-    player.update(dt)
+    if not game_state.ship_collision() then
+        player.update(dt)
+    else
+        player.update(0.001)
+    end
+
     asteroid.update_all(dt)
     bullet.update_all(dt)
 
@@ -48,12 +53,10 @@ function love.update(dt)
             game_state.add_score(100)
         elseif collision.type == "player" and not game_state.has_shield() then
             game_state.lose_ship()
-
-            -- Player.init()
-            bullet.clear_all()
+            game_state.set_ship_collision_time(3)
 
             if not game_state.game_over then
-                game_state.shield_up(3)
+                game_state.shield_up(6)
             end
         end
     end
@@ -67,9 +70,9 @@ function love.update(dt)
 end
 
 function love.draw()
-    love.graphics.setColor(1, 1, 1, 1)
+    love.graphics.setColor(colours.UI.COLOUR)
 
-    player.draw(game_state.has_shield())
+    player.draw(game_state.get_shield_time(), game_state.get_ship_collision_time())
     asteroid.draw_all()
     bullet.draw_all()
 
@@ -119,5 +122,7 @@ function love.keypressed(key)
         game_state.shield_up(3)
     end
 
-    player.handle_key_press(key)
+    if not game_state.ship_collision() then
+        player.handle_key_press(key)
+    end
 end

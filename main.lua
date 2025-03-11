@@ -6,20 +6,28 @@ local collision = require('src.systems.collision')
 local colours = require('src.utils.colours')
 local game_state = require('src.states.gamestate')
 local player = require('src.entities.player')
+local welcome_state = require('src.states.welcomestate')
 
 local exit_game = 0
 local restart_game = 0
 
 math.randomseed(os.time())
 
+local init_game = function()
+    game_state.init()
+    player.init()
+    asteroid.init_asteroids(game_state.get_level())
+end
+
 function love.load()
     love.graphics.setBackgroundColor(colours.UI.BACKGROUND)
 
-    game_state.init()
+    local music = love.audio.newSource('assets/music/aisteroids.ogg', 'stream')
+    music:setLooping(true)
+    music:play()
 
-    player.init()
-
-    asteroid.init_asteroids(game_state.get_level())
+    welcome_state.init()
+    init_game()
 end
 
 local next_level = function()
@@ -31,6 +39,16 @@ end
 function love.update(dt)
     exit_game = exit_game - dt
     restart_game = restart_game - dt
+
+    if welcome_state.is_active() then
+        welcome_state.update(dt)
+        if math.random(1, 3000) == 1 then
+            asteroid.clear_all()
+            asteroid.init_asteroids(math.random(3, 10))
+        end
+        asteroid.update_all(dt)
+        return
+    end
 
     game_state.update(dt)
 
@@ -76,6 +94,12 @@ end
 function love.draw()
     love.graphics.setColor(colours.UI.COLOUR)
 
+    if welcome_state.is_active() then
+        asteroid.draw_all()
+        welcome_state.draw()
+        return
+    end
+
     player.draw(game_state.get_shield_time(), game_state.get_ship_collision_time())
     asteroid.draw_all()
     bullet.draw_all()
@@ -99,17 +123,23 @@ local reset_game = function()
     asteroid.clear_all()
     bullet.clear_all()
 
-    game_state.init()
-    player.init()
-    asteroid.init_asteroids(game_state.get_level())
+    init_game()
 end
 
 function love.keypressed(key)
+    if welcome_state.is_active() then
+        if key == 'space' then
+            welcome_state.exit()
+            reset_game()
+        end
+        return
+    end
+
     if key == 'q' then
         if exit_game <= 0 then
             exit_game = 1
         else
-            love.event.quit()
+            welcome_state.init()
         end
     end
 

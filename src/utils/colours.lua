@@ -1,7 +1,7 @@
 return {
     UI = {
-        BACKGROUND = { 0.08, 0.09, 0.12 },
-        COLOUR = { 0.95, 0.96, 0.98 },
+        BACKGROUND = { 0.08, 0.09, 0.12, 1 },
+        COLOUR = { 0.95, 0.96, 0.98, 1 },
     },
 
     PLAYER = {

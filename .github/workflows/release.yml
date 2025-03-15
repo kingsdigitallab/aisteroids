@@ -19,15 +19,7 @@ jobs:
 
       - name: Create .love file
         run: |
-          zip -9 -r ${{ steps.get_file_name.outputs.FN }} . \
-          -x .cz.toml \
-          -x .gitignore \
-          -x .python-version \
-          -x .github/* \
-          -x .git/* \
-          -x .vscode/* \
-          -x .idea/* \
-          -x .DS_Store
+          zip -9 -r ${{ steps.get_file_name.outputs.FN }} . -x ".*"
 
       - name: Upload .love file
         uses: actions/upload-artifact@v4

@@ -1,3 +1,14 @@
+## v0.3.0 (2025-03-18)
+
+### Feat
+
+- **main**: implement background music control and integrate audio utility
+- **welcomestate**: integrate font management and expand instructions
+- **player**: add thrusting sound
+- **bullet**: play laser sound when a bullet is created
+- **audio**: add audio assets and utility for sound management
+- **fonts**: add new font assets and utility for font management
+
 ## v0.2.1 (2025-03-15)
 
 ## v0.2.0 (2025-03-11)

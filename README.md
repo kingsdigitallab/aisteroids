@@ -71,13 +71,15 @@ script needs to be run inside Sonic Pi.
 
 ## Running the game
 
-To run the game, you need to have [Love2D](https://love2d.org/) installed, and a
-copy of this repository. Then, navigate to the directory containing the cloned
-repository and run the command:
+To run the game, you need to have [Love2D](https://love2d.org/) installed, and
+a copy of the game from the [releases](releases).
 
-```bash
-love .
-```
+## Credits
+
+- `assets/sounds/laser.ogg` was converted to OGG format from the original by
+  [bubaproducer](https://freesound.org/s/151013/) -- License: Attribution 4.0
+- `assets/sounds/thrusters.ogg` was converted to OGG format from the original by
+  [DJT4NN3R](https://freesound.org/s/347576/) -- License: Creative Commons 0
 
 ## References
 
@@ -92,11 +94,7 @@ love .
 
 ## TODO
 
-- [ ] Add music
 - [ ] Add welcome screen
 - [ ] Add game over screen
-- [ ] Add a sound effect for the bullet
-- [ ] Add a sound effect for the asteroid collision
 - [ ] Add a sound effect for the ship explosion
 - [ ] Add a sound effect for the asteroid explosion
-- [ ] Add a sound effect for the asteroid hit

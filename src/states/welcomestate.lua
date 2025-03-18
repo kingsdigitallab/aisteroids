@@ -1,6 +1,7 @@
 local love = require('love')
 
 local colours = require('src.utils.colours')
+local fonts = require('src.utils.fonts')
 
 local WelcomeState = {
     active = false,
@@ -8,8 +9,7 @@ local WelcomeState = {
     instructions = "Press SPACE to start",
     instructions_colour = { colours.UI.COLOUR[1], colours.UI.COLOUR[2], colours.UI.COLOUR[3], colours.UI.COLOUR[4] },
     instructions_alpha_direction = -1,
-    font = love.graphics.getFont(),
-    title_width = 200,
+    commands = "Use the arrow keys to move the ship and SPACE to fire",
 }
 
 function WelcomeState.init()
@@ -30,21 +30,22 @@ end
 function WelcomeState.draw()
     if not WelcomeState.active then return end
 
+    local height = love.graphics.getHeight()
+    local width = love.graphics.getWidth()
+    local instructions_y = height - height / 4
+
     love.graphics.setColor(colours.UI.COLOUR)
-    love.graphics.print(
-        WelcomeState.title,
-        love.graphics.getWidth() / 2 - WelcomeState.font:getWidth(WelcomeState.title) / 2,
-        love.graphics.getHeight() / 3
-    )
+    fonts.set_font("title")
+    love.graphics.printf(WelcomeState.title, 0, height / 3, width, "center")
 
     love.graphics.setColor(WelcomeState.instructions_colour)
-    love.graphics.print(
-        WelcomeState.instructions,
-        love.graphics.getWidth() / 2 - WelcomeState.font:getWidth(WelcomeState.instructions) / 2,
-        love.graphics.getHeight() / 2
-    )
+    fonts.set_font("instructions")
+    love.graphics.printf(WelcomeState.instructions, 0, instructions_y, width, "center")
 
     love.graphics.setColor(colours.UI.COLOUR)
+
+    fonts.reset_font()
+    love.graphics.printf(WelcomeState.commands, 0, instructions_y + 100, width, "center")
 end
 
 function WelcomeState.is_active()

@@ -24,8 +24,8 @@ function Stock.get_asteroid_opts(level)
     local opts = {
         label = data.stock,
         colour = Stock.get_colour(data.last, data.open),
-        segments = data.volume / 1000000,
-        size = data.last / 10,
+        segments = math.min(50, data.last / 10),
+        size = math.min(75, data.volume / 1000000),
         line_width = high_low_diff,
         rotation_speed = last_open_diff,
         dx = math.random(-1 * velocity, velocity),

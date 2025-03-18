@@ -1,5 +1,6 @@
 local love = require('love')
 
+local audio = require('src.utils.audio')
 local utils = require('src.utils.utils')
 
 local Bullet = {
@@ -20,6 +21,8 @@ function Bullet.create(x, y, rotation)
         dy = math.sin(angle) * Bullet.speed,
         time_left = Bullet.lifetime
     }
+
+    audio.play_laser()
 
     table.insert(Bullet.bullets, bullet)
 end

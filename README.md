@@ -94,7 +94,7 @@ a copy of the game from the [releases](releases).
 
 ## TODO
 
-- [ ] Add welcome screen
-- [ ] Add game over screen
+- [ ] Expandwelcome screen
+- [ ] Improve game over screen
 - [ ] Add a sound effect for the ship explosion
 - [ ] Add a sound effect for the asteroid explosion

@@ -16,10 +16,10 @@ Using stock prices to generate asteroids characteristics also creates an
 interactive data visualition. Game mechanics are used to explore market
 volatility through:
 
-- asteroid size based on stock's last price
+- asteroid size based on the stock's trading volume for the day
 - asteroid colour reflects price change (last - open): green for gains, darker
   red for larger losses
-- asteroid segments scale with trading volume
+- asteroid segments scale with the stock's last price
 - asteroid line width matches daily price range (high - low)
 - asteroid rotation speed tied to price change magnitude: clockwise for gains,
   counter-clockwise for losses

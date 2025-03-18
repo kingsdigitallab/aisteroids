@@ -1,9 +1,11 @@
 local love = require('love')
 
+local audio = require('src.utils.audio')
 local asteroid = require('src.entities.asteroid')
 local bullet = require('src.entities.bullet')
 local collision = require('src.systems.collision')
 local colours = require('src.utils.colours')
+local fonts = require('src.utils.fonts')
 local game_state = require('src.states.gamestate')
 local player = require('src.entities.player')
 local welcome_state = require('src.states.welcomestate')
@@ -22,11 +24,12 @@ end
 function love.load()
     love.graphics.setBackgroundColor(colours.UI.BACKGROUND)
 
-    local music = love.audio.newSource('assets/music/aisteroids.ogg', 'stream')
-    music:setLooping(true)
-    music:play()
+    fonts.init()
+
+    audio.play_bgm()
 
     welcome_state.init()
+
     init_game()
 end
 
@@ -133,6 +136,14 @@ function love.keypressed(key)
             reset_game()
         end
         return
+    end
+
+    if key == 'm' then
+        if audio.bgm:isPlaying() then
+            audio.stop_bgm()
+        else
+            audio.play_bgm()
+        end
     end
 
     if key == 'q' then

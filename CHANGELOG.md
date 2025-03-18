@@ -9,11 +9,15 @@
 - **audio**: add audio assets and utility for sound management
 - **fonts**: add new font assets and utility for font management
 
+### Refactor
+
+- **stock**: update how the segments and size values are calculated
+
 ## v0.2.1 (2025-03-15)
 
 ## v0.2.0 (2025-03-11)
 
-## 0.1.0 (2025-03-11)
+## v0.1.0 (2025-03-11)
 
 ### Feat
 

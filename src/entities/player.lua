@@ -1,8 +1,9 @@
 local love = require('love')
 
+local audio = require('src.utils.audio')
+local bullet = require('src.entities.bullet')
 local colours = require('src.utils.colours')
 local utils = require('src.utils.utils')
-local bullet = require('src.entities.bullet')
 
 local Player = {
     x = 0,
@@ -33,6 +34,9 @@ function Player.draw(shield_time, collision_time)
     love.graphics.rotate(Player.rotation)
 
     if collision_time > 0 then
+        Player.is_thrusting = false
+        audio.stop_thrusters()
+
         local collision_colour_inner = colours.PLAYER.COLLISION_1
         collision_colour_inner[4] = collision_time / 3
 
@@ -61,10 +65,13 @@ function Player.draw(shield_time, collision_time)
             Player.size / 1.5, Player.size / 1.5)
 
         if Player.is_thrusting then
+            audio.play_thrusters()
             love.graphics.setColor(colours.PLAYER.SHIP_THRUST)
             love.graphics.polygon('fill', 0, Player.size * 1.5,
                 -Player.size / 2.5, Player.size / 2.5 + 5,
                 Player.size / 2.5, Player.size / 2.5 + 5)
+        else
+            audio.stop_thrusters()
         end
     end
 

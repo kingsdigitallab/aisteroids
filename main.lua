@@ -112,23 +112,25 @@ function love.draw()
     asteroid.draw_all()
     bullet.draw_all()
 
+    local height = love.graphics.getHeight()
+    local width = love.graphics.getWidth()
+
     -- Game stats in top left corner
-    love.graphics.printf("Score: " .. game_state.get_score(), 10, 10, love.graphics.getWidth(), "left")
-    love.graphics.printf("Level: " .. game_state.get_level(), 10, 30, love.graphics.getWidth(), "left")
-    love.graphics.printf("Ships: " .. game_state.get_ships(), 10, 50, love.graphics.getWidth(), "left")
+    love.graphics.printf("Score: " .. game_state.get_score(), 10, 10, width, "left")
+    love.graphics.printf("Level: " .. game_state.get_level(), 10, 30, width, "left")
+    love.graphics.printf("Ships: " .. game_state.get_ships(), 10, 50, width, "left")
 
     -- Date at top right
-    love.graphics.printf(game_state.get_date(), 0, 10, love.graphics.getWidth() - 10, "right")
+    love.graphics.printf(game_state.get_date(), 0, 10, width - 10, "right")
 
     -- Control instructions at bottom
-    love.graphics.printf("Press 'r' twice to restart", 10, love.graphics.getHeight() - 50, love.graphics.getWidth(),
-        "left")
-    love.graphics.printf("Press 'q' twice to quit", 10, love.graphics.getHeight() - 30, love.graphics.getWidth(), "left")
+    love.graphics.printf("Press 'r' twice to restart", 10, height - 50, width, "left")
+    love.graphics.printf("Press 'q' twice to quit", 10, height - 30, width, "left")
 
     if game_state.is_game_over() then
-        love.graphics.setColor(1, 0, 0)
-        love.graphics.print("Game Over", love.graphics.getWidth() / 4, love.graphics.getHeight() / 2)
-        love.graphics.setColor(1, 1, 1)
+        fonts.set_font("instructions")
+        love.graphics.printf("Game Over", 0, height / 4, width, "center")
+        fonts.reset_font()
     end
 end
 

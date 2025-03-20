@@ -74,7 +74,7 @@ script needs to be run inside Sonic Pi.
 ## Running the game
 
 To run the game, you need to have [Love2D](https://love2d.org/) installed, and
-a copy of the game from the [releases](releases).
+a copy of the game from the [releases](/kingsdigitallab/aisteroids/releases).
 
 ## Credits
 
@@ -96,7 +96,7 @@ a copy of the game from the [releases](releases).
 
 ## TODO
 
-- [ ] Expandwelcome screen
+- [ ] Expand welcome screen
 - [ ] Improve game over screen
 - [ ] Add a sound effect for the ship explosion
 - [ ] Add a sound effect for the asteroid explosion

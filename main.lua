@@ -112,13 +112,18 @@ function love.draw()
     asteroid.draw_all()
     bullet.draw_all()
 
-    love.graphics.print("Ships: " .. game_state.get_ships(), 10, 10)
-    love.graphics.print("Level: " .. game_state.get_level(), 10, 25)
-    love.graphics.print("Date: " .. game_state.get_date(), 10, 40)
-    love.graphics.print("Score: " .. game_state.get_score(), 10, 55)
-    love.graphics.print("Press 'q' twice to quit", 10, love.graphics.getHeight() - 20)
-    love.graphics.print("Press 'r' twice to restart", 10, love.graphics.getHeight() - 40)
+    -- Game stats in top left corner
+    love.graphics.printf("Score: " .. game_state.get_score(), 10, 10, love.graphics.getWidth(), "left")
+    love.graphics.printf("Level: " .. game_state.get_level(), 10, 30, love.graphics.getWidth(), "left")
+    love.graphics.printf("Ships: " .. game_state.get_ships(), 10, 50, love.graphics.getWidth(), "left")
 
+    -- Date at top right
+    love.graphics.printf(game_state.get_date(), 0, 10, love.graphics.getWidth() - 10, "right")
+
+    -- Control instructions at bottom
+    love.graphics.printf("Press 'r' twice to restart", 10, love.graphics.getHeight() - 50, love.graphics.getWidth(),
+        "left")
+    love.graphics.printf("Press 'q' twice to quit", 10, love.graphics.getHeight() - 30, love.graphics.getWidth(), "left")
 
     if game_state.is_game_over() then
         love.graphics.setColor(1, 0, 0)

@@ -36,7 +36,7 @@ function WelcomeState.draw()
 
     love.graphics.setColor(colours.UI.COLOUR)
     fonts.set_font("title")
-    love.graphics.printf(WelcomeState.title, 0, height / 3, width, "center")
+    love.graphics.printf(WelcomeState.title, 0, height / 4, width, "center")
 
     love.graphics.setColor(WelcomeState.instructions_colour)
     fonts.set_font("instructions")

@@ -5,7 +5,7 @@ clone developed in the [Love2D](https://love2d.org/) framework. The classic
 Asteroids game mechanics are used as a metaphor for the volatile and fragmented
 nature of AI technology and markets.
 
-![A(I)steroids gameplay screenshot](assets/images/gameplay.png)
+![A(I)steroids welcome screen](assets/images/welcome.png)
 
 Larger asteroids splitting into smaller ones mimics how AI technologies branch
 into specialised applications. The player's struggle to navigate/defend through
@@ -24,6 +24,8 @@ volatility through:
 - asteroid rotation speed tied to price change magnitude: clockwise for gains,
   counter-clockwise for losses
 - asteroid speed correlates to daily stock volatility
+
+![A(I)steroids gameplay screenshot](assets/images/gameplay.png)
 
 ## Data
 

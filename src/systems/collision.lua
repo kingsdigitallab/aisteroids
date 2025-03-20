@@ -5,7 +5,7 @@ local Collision = {
 }
 
 function Collision.check_collisions(game_state, player, bullets, asteroids)
-    Collision.collisions = {} -- Clear previous collisions
+    Collision.collisions = {}
 
     -- Check collisions with bullets
     for bullet_index, bullet in ipairs(bullets) do

@@ -1,3 +1,17 @@
+## v0.4.0 (2025-03-20)
+
+### Feat
+
+- **main**: integrate background into main game loop
+- **background**: add starry background
+
+### Refactor
+
+- **main**: update game stats display for improved layout and readability
+- **fonts**: adjust font size calculation for better ratios
+- **collision**: remove redundant comments
+- **welcomestate**: adjust title position in welcome screen for better balance
+
 ## v0.3.0 (2025-03-18)
 
 ### Feat

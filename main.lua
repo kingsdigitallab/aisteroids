@@ -2,6 +2,7 @@ local love = require('love')
 
 local audio = require('src.utils.audio')
 local asteroid = require('src.entities.asteroid')
+local background = require('src.entities.background')
 local bullet = require('src.entities.bullet')
 local collision = require('src.systems.collision')
 local colours = require('src.utils.colours')
@@ -24,12 +25,12 @@ end
 function love.load()
     love.graphics.setBackgroundColor(colours.UI.BACKGROUND)
 
+    background.init()
     fonts.init()
 
     audio.play_bgm()
 
     welcome_state.init()
-
     init_game()
 end
 
@@ -42,6 +43,8 @@ end
 function love.update(dt)
     exit_game = exit_game - dt
     restart_game = restart_game - dt
+
+    background.update(dt)
 
     if welcome_state.is_active() then
         welcome_state.update(dt)
@@ -96,6 +99,8 @@ end
 
 function love.draw()
     love.graphics.setColor(colours.UI.COLOUR)
+
+    background.draw()
 
     if welcome_state.is_active() then
         asteroid.draw_all()

@@ -74,7 +74,7 @@ script needs to be run inside Sonic Pi.
 ## Running the game
 
 To run the game, you need to have [Love2D](https://love2d.org/) installed, and
-a copy of the game from the [releases](/kingsdigitallab/aisteroids/releases).
+a copy of the game from the [releases](https://github.com/kingsdigitallab/aisteroids/releases).
 
 ## Credits
 

@@ -11,7 +11,7 @@ local Fonts = {
     },
     instructions = {
         family = "assets/fonts/space-mono-latin-400-normal.ttf",
-        size = love.graphics.getHeight() / 20,
+        size = love.graphics.getHeight() / 25,
     },
     fonts = {}
 }

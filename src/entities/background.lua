@@ -5,7 +5,9 @@ local Background = {
 }
 
 function Background.init()
-    for _ = 1, 100 do
+    Background.stars = {}
+
+    for _ = 1, love.graphics.getWidth() / 10 do
         table.insert(Background.stars, {
             x = love.math.random(0, love.graphics.getWidth()),
             y = love.math.random(0, love.graphics.getHeight()),

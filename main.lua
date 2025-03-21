@@ -35,9 +35,25 @@ function love.load()
 end
 
 local next_level = function()
+    asteroid.clear_all()
+    bullet.clear_all()
+
     game_state.next_level()
     game_state.shield_up(3)
-    asteroid.init_asteroids(asteroid.initial_count + game_state.get_level())
+
+    background.init()
+    asteroid.init_asteroids(game_state.get_level())
+end
+
+local previous_level = function()
+    asteroid.clear_all()
+    bullet.clear_all()
+
+    game_state.previous_level()
+    game_state.shield_up(3)
+
+    background.init()
+    asteroid.init_asteroids(game_state.get_level())
 end
 
 function love.update(dt)
@@ -53,6 +69,10 @@ function love.update(dt)
             asteroid.init_asteroids(math.random(3, 10))
         end
         asteroid.update_all(dt)
+        return
+    end
+
+    if game_state.is_paused() then
         return
     end
 
@@ -108,12 +128,21 @@ function love.draw()
         return
     end
 
+    local height = love.graphics.getHeight()
+    local width = love.graphics.getWidth()
+
+    if game_state.is_paused() then
+        fonts.set_font("instructions")
+        love.graphics.printf("Game Paused", 0, height / 3, width, "center")
+        fonts.reset_font()
+        love.graphics.printf("'P' to unpause", 0, height / 3 + 80, width, "center")
+        love.graphics.printf("'R' to restart", 0, height / 3 + 100, width, "center")
+        love.graphics.printf("'Q' to quit", 0, height / 3 + 120, width, "center")
+    end
+
     player.draw(game_state.get_shield_time(), game_state.get_ship_collision_time())
     asteroid.draw_all()
     bullet.draw_all()
-
-    local height = love.graphics.getHeight()
-    local width = love.graphics.getWidth()
 
     -- Game stats in top left corner
     love.graphics.printf("Score: " .. game_state.get_score(), 10, 10, width, "left")
@@ -123,14 +152,12 @@ function love.draw()
     -- Date at top right
     love.graphics.printf(game_state.get_date(), 0, 10, width - 10, "right")
 
-    -- Control instructions at bottom
-    love.graphics.printf("Press 'r' twice to restart", 10, height - 50, width, "left")
-    love.graphics.printf("Press 'q' twice to quit", 10, height - 30, width, "left")
-
     if game_state.is_game_over() then
         fonts.set_font("instructions")
         love.graphics.printf("Game Over", 0, height / 4, width, "center")
         fonts.reset_font()
+        love.graphics.printf("'R' to restart", 0, height / 3 + 80, width, "center")
+        love.graphics.printf("'Q' to quit", 0, height / 3 + 100, width, "center")
     end
 end
 
@@ -147,6 +174,7 @@ function love.keypressed(key)
             welcome_state.exit()
             reset_game()
         end
+
         return
     end
 
@@ -156,28 +184,36 @@ function love.keypressed(key)
         else
             audio.play_bgm()
         end
+
+        return
     end
 
-    if key == 'q' then
-        if exit_game <= 0 then
-            exit_game = 1
-        else
+    if key == 'p' then
+        game_state.toggle_pause()
+        return
+    end
+
+    if (game_state.is_paused() or game_state.is_game_over()) then
+        if key == 'q' then
+            game_state.set_paused(false)
             welcome_state.init()
+            return
+        end
+
+        if key == 'r' then
+            reset_game()
+            return
         end
     end
 
-    if key == 'r' then
-        if restart_game <= 0 then
-            restart_game = 1
-        else
-            reset_game()
-        end
+    if key == 'h' then
+        previous_level()
+        return
     end
 
     if key == 'l' then
-        asteroid.clear_all()
-        bullet.clear_all()
         next_level()
+        return
     end
 
     if not game_state.ship_collision() then

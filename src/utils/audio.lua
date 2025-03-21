@@ -42,8 +42,8 @@ function Audio.play_explosion()
     Audio.explosion:play()
 end
 
-function Audio.play_asteroid()
-    Audio.asteroid:play()
+function Audio.play_asteroid_hit()
+    Audio.asteroid_hit:play()
 end
 
 return Audio

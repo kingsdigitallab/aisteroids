@@ -95,7 +95,7 @@ function love.update(dt)
 
     -- Handle collisions
     for _, col in ipairs(collisions) do
-        audio.play_asteroid()
+        audio.play_asteroid_hit()
 
         asteroid.split(col.asteroid, col.asteroid_index)
 

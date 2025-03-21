@@ -220,7 +220,7 @@ function love.keypressed(key)
         return
     end
 
-    if not game_state.ship_collision() then
+    if not game_state.ship_collision() and not game_state.is_paused() then
         player.handle_key_press(key)
     end
 end

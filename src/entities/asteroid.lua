@@ -66,7 +66,7 @@ function Asteroid.draw_all()
 		love.graphics.setLineWidth(1)
 		love.graphics.setColor(colours.UI.COLOUR)
 		-- love.graphics.rotate(-1 * asteroid.rotation)
-		love.graphics.print(asteroid.label, 0, 0)
+		love.graphics.print(asteroid.label, -asteroid.size / string.len(asteroid.label) - 20, -asteroid.size / 2)
 		love.graphics.pop()
 	end
 end

@@ -95,6 +95,8 @@ function love.update(dt)
 
     -- Handle collisions
     for _, col in ipairs(collisions) do
+        audio.play_asteroid()
+
         asteroid.split(col.asteroid, col.asteroid_index)
 
         if col.type == "bullet" then
@@ -102,6 +104,8 @@ function love.update(dt)
 
             game_state.add_score(100)
         elseif col.type == "player" and not game_state.has_shield() then
+            audio.play_explosion()
+
             game_state.lose_ship()
             game_state.set_ship_collision_time(3)
 

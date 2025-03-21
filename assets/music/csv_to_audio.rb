@@ -29,6 +29,7 @@ data.each do |row|
   with_fx(:slicer, phase: [0.25, 0.125].choose) do
     with_fx(:reverb, room: 0.8, mix: 0.4) do
       play note, release: 2, note_slide: 10, cuttoff: high_low_diff, detune: rrand(0, 0.02), pan: pan, pan_slide: rrand(first / 100, last / 100)
+      control
       sleep 0.5
     end
   end

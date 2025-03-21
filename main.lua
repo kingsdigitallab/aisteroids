@@ -102,10 +102,10 @@ function love.update(dt)
         if col.type == "bullet" then
             table.remove(bullet.bullets, col.bullet_index)
 
-            game_state.add_score(100)
+            game_state.add_score(col.asteroid.value)
         elseif col.type == "player" and not game_state.has_shield() then
             audio.play_explosion()
-
+            game_state.add_score(-1 * col.asteroid.value)
             game_state.lose_ship()
             game_state.set_ship_collision_time(3)
 
@@ -149,7 +149,7 @@ function love.draw()
     bullet.draw_all()
 
     -- Game stats in top left corner
-    love.graphics.printf("Score: " .. game_state.get_score(), 10, 10, width, "left")
+    love.graphics.printf("Score: $" .. string.format("%.2f", game_state.get_score()), 10, 10, width, "left")
     love.graphics.printf("Level: " .. game_state.get_level(), 10, 30, width, "left")
     love.graphics.printf("Ships: " .. game_state.get_ships(), 10, 50, width, "left")
 

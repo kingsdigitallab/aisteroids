@@ -82,6 +82,10 @@ a copy of the game from the [releases](https://github.com/kingsdigitallab/aister
   [bubaproducer](https://freesound.org/s/151013/) -- License: Attribution 4.0
 - `assets/sounds/thrusters.ogg` was converted to OGG format from the original by
   [DJT4NN3R](https://freesound.org/s/347576/) -- License: Creative Commons 0
+- `assets/sounds/explosion.ogg` was converted to OGG format from the original by
+  [Artninja](https://freesound.org/s/750822/) -- License: Attribution 4.0
+- `assets/sounds/asteroid_hit.ogg` was converted to OGG format from the original by
+  [runningmind](https://freesound.org/s/387857/) -- License: Creative Commons 0
 
 ## References
 

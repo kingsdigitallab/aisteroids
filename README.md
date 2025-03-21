@@ -24,6 +24,9 @@ volatility through:
 - asteroid rotation speed tied to price change magnitude: clockwise for gains,
   counter-clockwise for losses
 - asteroid speed correlates to daily stock volatility
+- the player's score reflects the stock's market value (last trading price), with
+  collisions against asteroids resulting in score penalties proportional to the
+  asteroid's size
 
 ![A(I)steroids gameplay screenshot](assets/images/gameplay.png)
 

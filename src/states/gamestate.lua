@@ -3,6 +3,7 @@ local Stock = require("src.data.stock")
 local Game = {
     game_over = false,
     level = 1,
+    paused = false,
     score = 0,
     shield_time = 0,
     ship_collision_time = 0,
@@ -43,6 +44,24 @@ end
 
 function Game.next_level()
     Game.level = Game.level + 1
+end
+
+function Game.previous_level()
+    if Game.level > 1 then
+        Game.level = Game.level - 1
+    end
+end
+
+function Game.is_paused()
+    return Game.paused
+end
+
+function Game.set_paused(paused)
+    Game.paused = paused
+end
+
+function Game.toggle_pause()
+    Game.paused = not Game.paused
 end
 
 function Game.get_score()

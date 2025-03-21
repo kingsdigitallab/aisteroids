@@ -9,7 +9,7 @@ local WelcomeState = {
     instructions = "Press SPACE to start",
     instructions_colour = { colours.UI.COLOUR[1], colours.UI.COLOUR[2], colours.UI.COLOUR[3], colours.UI.COLOUR[4] },
     instructions_alpha_direction = -1,
-    commands = "Use the arrow keys to move the ship and SPACE to fire",
+    commands = "Use the arrow keys to move the ship, SPACE to fire and 'P' to pause the game",
 }
 
 function WelcomeState.init()

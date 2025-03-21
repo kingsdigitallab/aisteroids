@@ -26,6 +26,7 @@ function Asteroid.create(opts)
 
 	local asteroid = {
 		label = opts.label,
+		value = opts.value,
 		x = opts.x or math.random(0, love.graphics.getWidth()),
 		y = opts.y or math.random(0, love.graphics.getHeight()),
 		colour = opts.colour or { 1, 1, 1 },
@@ -101,6 +102,7 @@ function Asteroid.split(asteroid, index)
 				segments = asteroid.segments,
 				size = new_size,
 				label = asteroid.label,
+				value = asteroid.value / 2,
 				rotation = asteroid.rotation,
 				rotation_speed = asteroid.rotation_speed,
 			})

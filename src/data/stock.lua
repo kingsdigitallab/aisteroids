@@ -23,6 +23,7 @@ function Stock.get_asteroid_opts(level)
 
     local opts = {
         label = data.stock,
+        value = data.last,
         colour = Stock.get_colour(data.last, data.open),
         segments = math.min(50, data.last / 10),
         size = math.min(75, data.volume / 1000000),

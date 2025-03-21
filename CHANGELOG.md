@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v0.5.0 (2025-03-21)
+
+### Feat
+
+- **main**: play sound effects for asteroid collision and ship explosion
+- **audio**: add new sound effects for ship explosion and asteroid hit
+- **main**: enhance level navigation and add pause
+- **gamestate**: add pause functionality and previous level navigation
+- **background**:  generate stars based on screen width
+
+### Refactor
+
+- **colours**: update player ship and shield colors with alpha values
+- **asteroid**: adjust label positioning for better readability
+- **player**: set player ship colour
+- **main**: improve the game over message
+
 ## v0.4.0 (2025-03-20)
 
 ### Feat

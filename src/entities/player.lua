@@ -99,7 +99,7 @@ function Player.draw(shield_time, collision_time)
         end
 
         love.graphics.setColor(colours.PLAYER.SHIP)
-        love.graphics.polygon('line', 0, -Player.size,
+        love.graphics.polygon('fill', 0, -Player.size,
             -Player.size / 1.5, Player.size / 1.5,
             Player.size / 1.5, Player.size / 1.5)
         love.graphics.setColor(colours.UI.COLOUR)

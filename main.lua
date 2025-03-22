@@ -132,37 +132,13 @@ function love.draw()
         return
     end
 
-    local height = love.graphics.getHeight()
-    local width = love.graphics.getWidth()
-
-    if game_state.is_paused() then
-        fonts.set_font("instructions")
-        love.graphics.printf("Game Paused", 0, height / 3, width, "center")
-        fonts.reset_font()
-        love.graphics.printf("'P' to unpause", 0, height / 3 + 80, width, "center")
-        love.graphics.printf("'R' to restart", 0, height / 3 + 100, width, "center")
-        love.graphics.printf("'Q' to quit", 0, height / 3 + 120, width, "center")
-    end
-
     player.draw(game_state.get_shield_time(), game_state.get_ship_collision_time())
-    asteroid.draw_all()
+
     bullet.draw_all()
 
-    -- Game stats in top left corner
-    love.graphics.printf("Score: $" .. string.format("%.2f", game_state.get_score()), 10, 10, width, "left")
-    love.graphics.printf("Level: " .. game_state.get_level(), 10, 30, width, "left")
-    love.graphics.printf("Ships: " .. game_state.get_ships(), 10, 50, width, "left")
+    asteroid.draw_all()
 
-    -- Date at top right
-    love.graphics.printf(game_state.get_date(), 0, 10, width - 10, "right")
-
-    if game_state.is_game_over() then
-        fonts.set_font("instructions")
-        love.graphics.printf("Game Over", 0, height / 4, width, "center")
-        fonts.reset_font()
-        love.graphics.printf("'R' to restart", 0, height / 3 + 80, width, "center")
-        love.graphics.printf("'Q' to quit", 0, height / 3 + 100, width, "center")
-    end
+    game_state.draw()
 end
 
 local reset_game = function()

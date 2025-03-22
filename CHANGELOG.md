@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v0.6.0 (2025-03-22)
+
+### Feat
+
+- **gamestate**: implement game drawing logic to display score, level, ships, and game states
+- **asteroid**: include stock value in asteroid creation and splitting logic
+- **stock**: add value property to asteroid options
+
+### Fix
+
+- **main**: prevent player key presses when the game is paused, handle game over state
+- **main**: prevent key presses when the game is paused
+
+### Refactor
+
+- **player**: change player ship polygon from 'line' to 'fill'
+- **main**: move game state drawing logic to gamestate module for better organisation
+- **welcomestate**: update commands instruction to include pause command
+- **score**: update scoring system to reflect stock values and format score display
+
 ## v0.5.1 (2025-03-21)
 
 ### Fix

@@ -1,3 +1,6 @@
+local love = require("love")
+
+local fonts = require("src.utils.fonts")
 local Stock = require("src.data.stock")
 
 local Game = {
@@ -27,6 +30,36 @@ function Game.update(dt)
 
     if Game.ship_collision_time > 0 then
         Game.ship_collision_time = Game.ship_collision_time - dt
+    end
+end
+
+function Game.draw()
+    local height = love.graphics.getHeight()
+    local width = love.graphics.getWidth()
+
+    -- Game stats in top left corner
+    love.graphics.printf("Score: $" .. string.format("%.2f", Game.get_score()), 10, 10, width, "left")
+    love.graphics.printf("Level: " .. Game.get_level(), 10, 30, width, "left")
+    love.graphics.printf("Ships: " .. Game.get_ships(), 10, 50, width, "left")
+
+    -- Market date at top right
+    love.graphics.printf(Game.get_date(), 0, 10, width - 10, "right")
+
+    if Game.is_paused() then
+        fonts.set_font("instructions")
+        love.graphics.printf("Game Paused", 0, height / 3, width, "center")
+        fonts.reset_font()
+        love.graphics.printf("'P' to unpause", 0, height / 3 + 80, width, "center")
+        love.graphics.printf("'R' to restart", 0, height / 3 + 100, width, "center")
+        love.graphics.printf("'Q' to quit", 0, height / 3 + 120, width, "center")
+    end
+
+    if Game.is_game_over() then
+        fonts.set_font("instructions")
+        love.graphics.printf("Game Over", 0, height / 4, width, "center")
+        fonts.reset_font()
+        love.graphics.printf("'R' to restart", 0, height / 3 + 80, width, "center")
+        love.graphics.printf("'Q' to quit", 0, height / 3 + 100, width, "center")
     end
 end
 

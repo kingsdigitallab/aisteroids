@@ -12,9 +12,6 @@ local game_state = require('src.states.gamestate')
 local player = require('src.entities.player')
 local welcome_state = require('src.states.welcomestate')
 
-local exit_game = 0
-local restart_game = 0
-
 math.randomseed(os.time())
 
 local init_game = function()
@@ -59,9 +56,6 @@ local previous_level = function()
 end
 
 function love.update(dt)
-    exit_game = exit_game - dt
-    restart_game = restart_game - dt
-
     background.update(dt)
 
     if welcome_state.is_active() then

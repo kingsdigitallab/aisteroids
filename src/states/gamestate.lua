@@ -1,5 +1,6 @@
 local love = require("love")
 
+local colours = require("src.utils.colours")
 local fonts = require("src.utils.fonts")
 local Stock = require("src.data.stock")
 
@@ -12,6 +13,7 @@ local Game = {
     ship_collision_time = 0,
     ships = 3,
     welcome = true,
+    changing_level_time = 0,
 }
 
 function Game.init()
@@ -24,12 +26,17 @@ function Game.init()
 end
 
 function Game.update(dt)
-    if Game.shield_time > 0 then
-        Game.shield_time = Game.shield_time - dt
-    end
-
     if Game.ship_collision_time > 0 then
         Game.ship_collision_time = Game.ship_collision_time - dt
+    end
+
+    if Game.changing_level_time > 0 then
+        Game.changing_level_time = Game.changing_level_time - dt
+        return
+    end
+
+    if Game.shield_time > 0 then
+        Game.shield_time = Game.shield_time - dt
     end
 end
 
@@ -37,13 +44,27 @@ function Game.draw()
     local height = love.graphics.getHeight()
     local width = love.graphics.getWidth()
 
-    -- Game stats in top left corner
-    love.graphics.printf("Score: $" .. string.format("%.2f", Game.get_score()), 10, 10, width, "left")
-    love.graphics.printf("Level: " .. Game.get_level(), 10, 30, width, "left")
-    love.graphics.printf("Ships: " .. Game.get_ships(), 10, 50, width, "left")
+    if Game.is_changing_level() then
+        local alpha = (Game.changing_level_time / 2) * 1
+        love.graphics.setColor(colours.UI.COLOUR[1], colours.UI.COLOUR[2], colours.UI.COLOUR[3], alpha)
 
-    -- Market date at top right
-    love.graphics.printf(Game.get_date(), 0, 10, width - 10, "right")
+        fonts.set_font("instructions")
+        love.graphics.printf("Level " .. Game.get_level(), 0, height / 3, width, "center")
+        fonts.reset_font()
+
+        love.graphics.printf(Game.get_date(), 0, height / 3 + 80, width, "center")
+        love.graphics.printf("Score: $" .. string.format("%.2f", Game.get_score()), 0, height / 3 + 100, width, "center")
+        love.graphics.printf("Ships: " .. Game.get_ships(), 0, height / 3 + 120, width, "center")
+
+        love.graphics.setColor(colours.UI.COLOUR)
+    else
+        -- Game stats in top left corner
+        love.graphics.printf("Score: $" .. string.format("%.2f", Game.get_score()), 10, 10, width, "left")
+        love.graphics.printf("Level: " .. Game.get_level(), 10, 30, width, "left")
+        love.graphics.printf("Ships: " .. Game.get_ships(), 10, 50, width, "left")
+        -- Market date at top right
+        love.graphics.printf(Game.get_date(), 0, 10, width - 10, "right")
+    end
 
     if Game.is_paused() then
         fonts.set_font("instructions")
@@ -77,12 +98,18 @@ end
 
 function Game.next_level()
     Game.level = Game.level + 1
+    Game.changing_level_time = 2
 end
 
 function Game.previous_level()
     if Game.level > 1 then
         Game.level = Game.level - 1
+        Game.changing_level_time = 2
     end
+end
+
+function Game.is_changing_level()
+    return Game.changing_level_time > 0
 end
 
 function Game.is_paused()

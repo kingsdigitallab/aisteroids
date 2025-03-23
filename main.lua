@@ -74,6 +74,12 @@ function love.update(dt)
 
     game_state.update(dt)
 
+    debris.update(dt)
+
+    if game_state.is_changing_level() then
+        return
+    end
+
     if game_state.is_game_over() then
         return
     end
@@ -86,7 +92,6 @@ function love.update(dt)
 
     asteroid.update_all(dt)
     bullet.update_all(dt)
-    debris.update(dt)
 
     local collisions = collision.check_collisions(game_state, player, bullet.bullets, asteroid.asteroids)
 
@@ -133,11 +138,11 @@ function love.draw()
 
     debris.draw()
 
-    player.draw(game_state.get_shield_time(), game_state.get_ship_collision_time())
-
-    bullet.draw_all()
-
-    asteroid.draw_all()
+    if not game_state.is_changing_level() then
+        player.draw(game_state.get_shield_time(), game_state.get_ship_collision_time())
+        bullet.draw_all()
+        asteroid.draw_all()
+    end
 
     game_state.draw()
 end

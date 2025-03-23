@@ -6,6 +6,7 @@ local background = require('src.entities.background')
 local bullet = require('src.entities.bullet')
 local collision = require('src.systems.collision')
 local colours = require('src.utils.colours')
+local debris = require('src.entities.debris')
 local fonts = require('src.utils.fonts')
 local game_state = require('src.states.gamestate')
 local player = require('src.entities.player')
@@ -19,6 +20,7 @@ math.randomseed(os.time())
 local init_game = function()
     game_state.init()
     player.init()
+    game_state.shield_up(2)
     asteroid.init_asteroids(game_state.get_level())
 end
 
@@ -90,6 +92,7 @@ function love.update(dt)
 
     asteroid.update_all(dt)
     bullet.update_all(dt)
+    debris.update(dt)
 
     local collisions = collision.check_collisions(game_state, player, bullet.bullets, asteroid.asteroids)
 
@@ -98,6 +101,7 @@ function love.update(dt)
         audio.play_asteroid_hit()
 
         asteroid.split(col.asteroid, col.asteroid_index)
+        debris.create(col.asteroid)
 
         if col.type == "bullet" then
             table.remove(bullet.bullets, col.bullet_index)
@@ -105,6 +109,7 @@ function love.update(dt)
             game_state.add_score(col.asteroid.value)
         elseif col.type == "player" and not game_state.has_shield() then
             audio.play_explosion()
+
             game_state.add_score(-1 * col.asteroid.value)
             game_state.lose_ship()
             game_state.set_ship_collision_time(3)
@@ -131,6 +136,8 @@ function love.draw()
         welcome_state.draw()
         return
     end
+
+    debris.draw()
 
     player.draw(game_state.get_shield_time(), game_state.get_ship_collision_time())
 

@@ -30,6 +30,11 @@ volatility through:
 
 ![A(I)steroids gameplay screenshot](assets/images/gameplay.png)
 
+## Running the game
+
+To run the game, you need to have [Love2D](https://love2d.org/) installed, and
+a copy of the game from the [releases](https://github.com/kingsdigitallab/aisteroids/releases).
+
 ## Data
 
 The stock data was downloaded from the [Nasdaq](https://www.nasdaq.com/) website,
@@ -73,11 +78,6 @@ script needs to be run inside Sonic Pi.
 - `conf.lua`: Configuration
 - `main.lua`: Entry point and game loop
 - `README.md`: This file
-
-## Running the game
-
-To run the game, you need to have [Love2D](https://love2d.org/) installed, and
-a copy of the game from the [releases](https://github.com/kingsdigitallab/aisteroids/releases).
 
 ## Credits
 

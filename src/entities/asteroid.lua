@@ -16,7 +16,8 @@ function Asteroid.init_asteroids(level)
 	local count = Asteroid.initial_count + level - 1
 	for _ = 1, count do
 		local asteroid_opts = stock.get_asteroid_opts(level)
-		Asteroid.create(asteroid_opts)
+		local asteroid = Asteroid.create(asteroid_opts)
+		table.insert(Asteroid.asteroids, asteroid)
 	end
 end
 
@@ -40,7 +41,7 @@ function Asteroid.create(opts)
 		vertices = Asteroid.generate_vertices(num_segments, asteroid_size),
 	}
 
-	table.insert(Asteroid.asteroids, asteroid)
+	return asteroid
 end
 
 function Asteroid.generate_vertices(segments, size)
@@ -66,8 +67,12 @@ function Asteroid.draw_all()
 		love.graphics.polygon("line", asteroid.vertices)
 		love.graphics.setLineWidth(1)
 		love.graphics.setColor(colours.UI.COLOUR)
-		-- love.graphics.rotate(-1 * asteroid.rotation)
-		love.graphics.print(asteroid.label, -asteroid.size / string.len(asteroid.label) - 20, -asteroid.size / 2)
+
+		if asteroid.label then
+			-- love.graphics.rotate(-1 * asteroid.rotation)
+			love.graphics.print(asteroid.label, -asteroid.size / string.len(asteroid.label) - 20, -asteroid.size / 2)
+		end
+
 		love.graphics.pop()
 	end
 end
@@ -94,7 +99,7 @@ function Asteroid.split(asteroid, index)
 		local new_size = asteroid.size * 0.6
 
 		for _ = 1, 2 do
-			Asteroid.create({
+			local new_asteroid = Asteroid.create({
 				x = asteroid.x,
 				y = asteroid.y,
 				colour = asteroid.colour,
@@ -106,6 +111,8 @@ function Asteroid.split(asteroid, index)
 				rotation = asteroid.rotation,
 				rotation_speed = asteroid.rotation_speed,
 			})
+
+			table.insert(Asteroid.asteroids, new_asteroid)
 		end
 	end
 

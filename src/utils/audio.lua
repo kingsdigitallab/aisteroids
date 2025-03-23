@@ -43,6 +43,10 @@ function Audio.play_explosion()
 end
 
 function Audio.play_asteroid_hit()
+    if Audio.asteroid_hit:isPlaying() then
+        Audio.asteroid_hit:stop()
+    end
+
     Audio.asteroid_hit:play()
 end
 

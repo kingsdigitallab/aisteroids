@@ -1,34 +1,153 @@
-name: Release
+name: Build and release packages
+
+env:
+  VERSION: ${{ github.ref_type == 'tag' && github.ref_name || '0.0.0-test' }}
+
+  LOVE_FILE: ${{ github.ref_type == 'tag' && format('aisteroids-{0}.love', github.ref_name) || 'aisteroids-test.love' }}
+  MAC_FILE: ${{ github.ref_type == 'tag' && format('aisteroids-{0}.app', github.ref_name) || 'aisteroids-test.app' }}
+
+  PRODUCT_NAME: aisteroids
+  APP_NAME: "A(I)steroids"
+  BUNDLE_ID: "uk.ac.kcl.kingsdigitallab.aisteroids"
+  ICON_PATH: ./assets/icons/
+  COPYRIGHT: "Copyright © 2025"
 
 on:
   push:
     tags:
       - "v*"
+    branches:
+      - love-package-actions
 
 jobs:
-  release:
+  build-love:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Create file name
-        id: get_file_name
-        run: |
-          echo "FN=aisteroids-${{ github.ref_name }}.love" >> $GITHUB_OUTPUT
-
       - name: Create .love file
         run: |
-          zip -9 -r ${{ steps.get_file_name.outputs.FN }} . -x ".*"
+          zip -9 -r ${{ env.LOVE_FILE }} . -x ".*"
 
       - name: Upload .love file
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ steps.get_file_name.outputs.FN }}
-          path: ${{ steps.get_file_name.outputs.FN }}
+          name: ${{ env.LOVE_FILE }}
+          path: ${{ env.LOVE_FILE }}
 
       - name: Create release
+        if: github.ref_type == 'tag'
         uses: softprops/action-gh-release@v2
         with:
-          files: ${{ steps.get_file_name.outputs.FN }}
+          files: ${{ env.LOVE_FILE }}
           body_path: ${{ github.workspace }}/CHANGELOG.md
+
+  build-macos:
+    needs: build-love
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download love file
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.LOVE_FILE }}
+
+      - name: Build macOS packages
+        run: |
+          wget https://github.com/love2d/love/releases/download/11.5/love-11.5-macos.zip
+          unzip love-11.5-macos.zip -d build/macos
+          mv build/macos/love.app build/macos/${{ env.MAC_FILE }}
+          cp ${{ env.LOVE_FILE }} build/macos/${{ env.MAC_FILE }}/Contents/Resources/
+          cp build/macos/Info.plist build/macos/${{ env.MAC_FILE }}/Contents/
+          zip -9 -r -y build/macos/${{ env.MAC_FILE }}.zip build/macos/${{ env.MAC_FILE }}
+
+      - name: Upload macOS builds as artifact
+        if: github.ref_type != 'tag'
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-test-build
+          path: build/macos/${{ env.MAC_FILE }}.zip
+
+      - name: Upload macOS builds to release
+        if: github.ref_type == 'tag'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            build/macos/${{ env.MAC_FILE }}.zip
+
+  build-windows:
+    needs: build-love
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download love file
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.LOVE_FILE }}
+
+      - name: Build Windows packages
+        uses: love-actions/love-actions-windows@v1
+        with:
+          love-package: ${{ env.LOVE_FILE }}
+          product-name: ${{ env.PRODUCT_NAME }}
+          icon-path: ${{ env.ICON_PATH }}/aisteroids.ico
+
+      - name: Upload Windows builds as artifact
+        if: github.ref_type != 'tag'
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-test-build
+          path: |
+            build/aisteroids_x86.zip
+            build/aisteroids_x64.zip
+            build/aisteroids_installer.exe
+
+      - name: Upload Windows builds to release
+        if: github.ref_type == 'tag'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            build/aisteroids_x86.zip
+            build/aisteroids_x64.zip
+            build/aisteroids_installer.exe
+
+  build-linux:
+    needs: build-love
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download love file
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.LOVE_FILE }}
+
+      - name: Build Linux packages
+        uses: love-actions/love-actions-linux@v2
+        with:
+          love-package: ${{ env.LOVE_FILE }}
+          product-name: ${{ env.PRODUCT_NAME }}
+          app-name: ${{ env.APP_NAME }}
+          bundle-id: ${{ env.BUNDLE_ID }}
+          icon-path: ${{ env.ICON_PATH }}/aisteroids.png
+          version-string: ${{ env.VERSION }}
+
+      - name: Upload Linux builds as artifact
+        if: github.ref_type != 'tag'
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-test-build
+          path: build/aisteroids.AppImage
+
+      - name: Upload Linux builds to release
+        if: github.ref_type == 'tag'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            build/aisteroids.AppImage

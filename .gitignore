@@ -7,3 +7,5 @@
 
 *.aup3*
 *.wav
+
+build/macos/A(I)steroids.app

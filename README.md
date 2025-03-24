@@ -30,10 +30,14 @@ volatility through:
 
 ![A(I)steroids gameplay screenshot](assets/images/gameplay.png)
 
-## Running the game
+## Download
 
-To run the game, you need to have [Love2D](https://love2d.org/) installed, and
-a copy of the game from the [releases](https://github.com/kingsdigitallab/aisteroids/releases).
+To download the game, go to the [releases](https://github.com/kingsdigitallab/aisteroids/releases)
+page and download the appropriate package for your platform.
+
+> [!WARNING]
+> The Mac version is not signed, you may need to ignore the security warning
+> to be able to run it.
 
 ## Data
 
@@ -66,7 +70,18 @@ the stock volume, and synth effects are derived from the stock prices.
 The script used to generate the music is `assets/music/csv_to_audio.rb`. The
 script needs to be run inside Sonic Pi.
 
-## Structure
+## Development
+
+To run the game, you need to have [Love2D](https://love2d.org/) installed, and
+a copy of this repository.
+
+```bash
+git clone https://github.com/kingsdigitallab/aisteroids.git
+cd aisteroids
+love .
+```
+
+### Structure
 
 - `src/`: Source code
   - `data/`: Data files

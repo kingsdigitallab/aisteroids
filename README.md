@@ -12,6 +12,8 @@ into specialised applications. The player's struggle to navigate/defend through
 chaos reflects our attempt to make sense of rapid AI delopments and the lack of
 consistent or planned-ahead regulation.
 
+The shooting/splitting is based on the original Asteroids game. In this version, the size of the asteroid relates to the stock trading volume for that day. The shooting/splitting represents both the effort required to break down large volumes of trades and the fragmentation of AI technologies into specialised applications.
+
 Using stock prices to generate asteroids characteristics also creates an
 interactive data visualition. Game mechanics are used to explore market
 volatility through:

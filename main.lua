@@ -9,10 +9,13 @@ local colours = require('src.utils.colours')
 local debris = require('src.entities.debris')
 local fonts = require('src.utils.fonts')
 local game_state = require('src.states.gamestate')
+local moonshine = require('lib.moonshine')
 local player = require('src.entities.player')
 local welcome_state = require('src.states.welcomestate')
 
 math.randomseed(os.time())
+
+local shader = nil
 
 local init_game = function()
     game_state.init()
@@ -23,6 +26,8 @@ end
 
 function love.load()
     love.graphics.setBackgroundColor(colours.UI.BACKGROUND)
+
+    shader = moonshine(moonshine.effects.crt).chain(moonshine.effects.scanlines)
 
     background.init()
     fonts.init()
@@ -128,23 +133,27 @@ end
 function love.draw()
     love.graphics.setColor(colours.UI.COLOUR)
 
-    background.draw()
+    shader(
+        function()
+            background.draw()
 
-    if welcome_state.is_active() then
-        asteroid.draw_all()
-        welcome_state.draw()
-        return
-    end
+            if welcome_state.is_active() then
+                asteroid.draw_all()
+                welcome_state.draw()
+                return
+            end
 
-    debris.draw()
+            debris.draw()
 
-    if not game_state.is_changing_level() then
-        player.draw(game_state.get_shield_time(), game_state.get_ship_collision_time())
-        bullet.draw_all()
-        asteroid.draw_all()
-    end
+            if not game_state.is_changing_level() then
+                player.draw(game_state.get_shield_time(), game_state.get_ship_collision_time())
+                bullet.draw_all()
+                asteroid.draw_all()
+            end
 
-    game_state.draw()
+            game_state.draw()
+        end
+    )
 end
 
 local reset_game = function()

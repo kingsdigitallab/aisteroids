@@ -76,7 +76,7 @@ function Player.draw(shield_time, collision_time)
         audio.stop_thrusters()
 
         local collision_colour_inner = colours.PLAYER.COLLISION_1
-        collision_colour_inner[4] = collision_time / 3
+        collision_colour_inner[4] = (collision_time / 3) / 2
 
         local collision_colour_outer = colours.PLAYER.COLLISION_2
         collision_colour_outer[4] = collision_time / 3
@@ -126,6 +126,15 @@ function Player.handle_key_press(key)
         bullet.create(Player.x + math.cos(angle) * Player.size / 2,
             Player.y + math.sin(angle) * Player.size / 2,
             Player.rotation)
+
+        -- for i = -20, 20 do
+        --     if i ~= 0 then
+        --         local new_angle = angle + i * math.pi / 20
+        --         bullet.create(Player.x + math.cos(new_angle) * Player.size / 2,
+        --             Player.y + math.sin(new_angle) * Player.size / 2,
+        --             Player.rotation + i * math.pi / 20)
+        --     end
+        -- end
     end
 end
 
